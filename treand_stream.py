@@ -3,8 +3,7 @@ from dateutil import parser
 from datetime import datetime
 from elasticsearch import Elasticsearch
 from twitter import Twitter, TwitterStream, OAuth
-from threading import Timer
-from thread import get_ident
+from threading import Timer, get_ident
 
 OAUTH_INFO = dict(
     token="",
@@ -44,7 +43,7 @@ class TwitterTrendStream():
 
         trend_list = self.__fetch_trands(twitter)
         tweet_iter = self.__fetch_filter_stream(twitter_stream, trend_list)
-
+		
         for tweet in tweet_iter:
             if "limit" in tweet: 
                 continue
@@ -58,7 +57,7 @@ class TwitterTrendStream():
                         'text': tweet['text'],
                         'created_at': str(parser.parse(tweet['created_at']).astimezone(JST).isoformat())
                     }
-                    self.__es.index(index="testindex", doc_type='tweet', body=doc)
+                    self.__es.index(index="twi_index", doc_type='twi_type', body=doc)
 
 if __name__ == '__main__':
     TwitterTrendStream().run()
