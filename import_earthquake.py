@@ -20,7 +20,7 @@ class GetEarthQuake():
 		
 		global datestring		
 		new_date=datestring #save the latest time
-		print datestring
+		print(datestring)
 		
 		for value in jsonData:
 			if value["code"]==551: 
@@ -34,11 +34,11 @@ class GetEarthQuake():
 					lon=value["earthquake"]["hypocenter"]["longitude"]
 					if lat.startswith("N"):
 						lats=float(lat.lstrip("N"))
-					else:
+					elif lat.startswith("S"):
 						lats=float(lat.lstrip("S"))
 					if lon.startswith("E"):
 						lons=float(lon.lstrip("E"))
-					else:
+					elif lon.startswith("W"):
 						lons=float(lon.lstrip("W"))
 					
 					#depth
@@ -49,7 +49,7 @@ class GetEarthQuake():
 						depth=0
 						
 					#datetime
-					dtime=value["earthquake"]["time"].encode("utf-8")
+					dtime=value["earthquake"]["time"]
 					dtime=datetime.strptime(dtime,"%d日%H時%M分")
 					dtime=dtime.replace(year=datetime.today().year)
 					dtime=dtime.replace(month=datetime.today().month)
